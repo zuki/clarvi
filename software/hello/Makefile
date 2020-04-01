@@ -4,8 +4,9 @@ PROJECT = program
 BUILD = build
 
 # name of the Quartus program
-FPGA_PROJECT_PATH = ../quartus
-FPGA_PROJECT = clarvi
+FPGA_PROJECT_PATH = ../../soc
+FPGA_PROJECT = clarvi_soc
+FPGA_PROJECT_REVISION = clarvi_soc_top
 
 # source files
 C_FILES := $(wildcard src/*.c)
@@ -75,12 +76,13 @@ dirs:
 
 # update the memory files inside the FPGA bitfile
 update-mem:	all
-	cd ${FPGA_PROJECT_PATH} && quartus_cdb ${FPGA_PROJECT} -c ${FPGA_PROJECT} --update_mif
-	cd ${FPGA_PROJECT_PATH} && quartus_asm --read_settings_files=on --write_settings_files=off ${FPGA_PROJECT} -c ${FPGA_PROJECT}
+	cd ${FPGA_PROJECT_PATH} && quartus_cdb ${FPGA_PROJECT} -c ${FPGA_PROJECT_REVISION} --update_mif
+	cd ${FPGA_PROJECT_PATH} && quartus_asm --read_settings_files=on --write_settings_files=off ${FPGA_PROJECT} -c ${FPGA_PROJECT_REVISION}
 
 # download the bitfile to your board
 download:
-	cd ${FPGA_PROJECT_PATH} && quartus_pgm -m jtag -o P\;output_files/${FPGA_PROJECT}.sof@2
+	cd ${FPGA_PROJECT_PATH} && quartus_pgm -c "Arrow-USB-Blaster [USB0]" -m jtag -o P\;output_files/${FPGA_PROJECT_REVISION}.sof@1
+#	cd ${FPGA_PROJECT_PATH} && quartus_pgm -c "Arrow-USB-Blaster [USB0]" output_files/${FPGA_PROJECT}.cdf
 
 # build the whole FPGA from the command line
 # not that it's harder to spot warnings in this output compared with the GUI
