@@ -25,7 +25,8 @@ LD = $(RISCV_PREFIX)ld
 OBJCOPY = $(RISCV_PREFIX)objcopy
 OBJDUMP = $(RISCV_PREFIX)objdump
 
-TARGET_ARCH = -m32 -march=RV32I
+#TARGET_ARCH = -m32 -march=RV32I
+TARGET_ARCH = -march=rv32i -mabi=ilp32
 CCFLAGS = -O0 $(TARGET_ARCH)
 
 # Lists of rules: the name of a file, followed by the files it depends on.
@@ -48,7 +49,7 @@ $(BUILD)/%.o: src/%.S
 
 # link with gcc
 $(BUILD)/$(PROJECT).elf: ${AS_OBJ_FILES} ${C_OBJ_FILES} ${ASP_OBJ_FILES}
-	$(CC) -o $@ $^ -T link.ld -lgcc -nostdlib
+	$(CC) -o $@ $^ -T link.ld -nostdlib
 
 # build an elf executable
 $(BUILD)/$(PROJECT).dump: $(BUILD)/$(PROJECT).elf
@@ -64,7 +65,8 @@ $(BUILD)/mem.txt: $(BUILD)/mem.bin
 
 # convert to an Intel HEX file for downloading to the FPGA
 $(BUILD)/mem.hex: $(BUILD)/mem.txt
-	python txt2hex.py $< $@ 4
+	python3 txt2hex.py $< $@ 4
+	cp $@ ../../soc/mem.hex
 
 
 # make software project folder
