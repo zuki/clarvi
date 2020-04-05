@@ -25,6 +25,14 @@
          type = "int";
       }
    }
+   element clock_bridge_0
+   {
+      datum _sortIndex
+      {
+         value = "5";
+         type = "int";
+      }
+   }
    element pio_0
    {
       datum _sortIndex
@@ -62,6 +70,22 @@
       datum baseAddress
       {
          value = "0";
+         type = "String";
+      }
+   }
+   element sdram
+   {
+      datum _sortIndex
+      {
+         value = "6";
+         type = "int";
+      }
+   }
+   element sdram.s1
+   {
+      datum baseAddress
+      {
+         value = "16777216";
          type = "String";
       }
    }
@@ -109,23 +133,38 @@
    type="conduit"
    dir="end" />
  <interface name="reset" internal="clk_0.clk_in_reset" type="reset" dir="end" />
+ <interface name="sdram" internal="sdram.wire" type="conduit" dir="end" />
+ <interface
+   name="sdram_clock"
+   internal="clock_bridge_0.in_clk"
+   type="clock"
+   dir="end" />
  <interface
    name="uart"
    internal="uart_0.external_connection"
    type="conduit"
    dir="end" />
  <module name="clarvi_0" kind="clarvi" version="1.0" enabled="1">
-  <parameter name="AUTO_INTERRUPT_RECEIVER_0_INTERRUPTS_USED" value="0" />
+  <parameter name="AUTO_INTERRUPT_RECEIVER_0_INTERRUPTS_USED" value="1" />
   <parameter name="DATA_ADDR_WIDTH" value="29" />
   <parameter name="DEFAULT_TRAP_VECTOR" value="0" />
   <parameter name="INITIAL_PC" value="0" />
-  <parameter name="INSTR_ADDR_WIDTH" value="14" />
+  <parameter name="INSTR_ADDR_WIDTH" value="29" />
  </module>
  <module name="clk_0" kind="clock_source" version="18.1" enabled="1">
   <parameter name="clockFrequency" value="50000000" />
   <parameter name="clockFrequencyKnown" value="true" />
   <parameter name="inputClockFrequency" value="0" />
   <parameter name="resetSynchronousEdges" value="NONE" />
+ </module>
+ <module
+   name="clock_bridge_0"
+   kind="altera_clock_bridge"
+   version="18.1"
+   enabled="1">
+  <parameter name="DERIVED_CLOCK_RATE" value="0" />
+  <parameter name="EXPLICIT_CLOCK_RATE" value="100000000" />
+  <parameter name="NUM_CLOCK_OUTPUTS" value="1" />
  </module>
  <module name="pio_0" kind="altera_avalon_pio" version="18.1" enabled="1">
   <parameter name="bitClearingEdgeCapReg" value="false" />
@@ -173,6 +212,35 @@
   <parameter name="useShallowMemBlocks" value="false" />
   <parameter name="writable" value="true" />
  </module>
+ <module
+   name="sdram"
+   kind="altera_avalon_new_sdram_controller"
+   version="18.1"
+   enabled="1">
+  <parameter name="TAC" value="5.4" />
+  <parameter name="TMRD" value="3" />
+  <parameter name="TRCD" value="15.0" />
+  <parameter name="TRFC" value="65.0" />
+  <parameter name="TRP" value="15.0" />
+  <parameter name="TWR" value="16.0" />
+  <parameter name="casLatency" value="3" />
+  <parameter name="clockRate" value="100000000" />
+  <parameter name="columnWidth" value="8" />
+  <parameter name="componentName" value="$${FILENAME}_sdram" />
+  <parameter name="dataWidth" value="16" />
+  <parameter name="generateSimulationModel" value="false" />
+  <parameter name="initNOPDelay" value="0.0" />
+  <parameter name="initRefreshCommands" value="8" />
+  <parameter name="masteredTristateBridgeSlave" value="0" />
+  <parameter name="model">single_Micron_MT48LC4M32B2_7_chip</parameter>
+  <parameter name="numberOfBanks" value="4" />
+  <parameter name="numberOfChipSelects" value="1" />
+  <parameter name="pinsSharedViaTriState" value="false" />
+  <parameter name="powerUpDelay" value="200.0" />
+  <parameter name="refreshPeriod" value="15.625" />
+  <parameter name="registerDataIn" value="true" />
+  <parameter name="rowWidth" value="12" />
+ </module>
  <module name="uart_0" kind="altera_avalon_uart" version="18.1" enabled="1">
   <parameter name="baud" value="115200" />
   <parameter name="clockRate" value="50000000" />
@@ -189,6 +257,11 @@
   <parameter name="useEopRegister" value="false" />
   <parameter name="useRelativePathForSimFile" value="false" />
  </module>
+ <connection kind="avalon" version="18.1" start="clarvi_0.instr" end="sdram.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x01000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <connection kind="avalon" version="18.1" start="clarvi_0.instr" end="ram.s2">
   <parameter name="arbitrationPriority" value="1" />
   <parameter name="baseAddress" value="0x0000" />
@@ -209,11 +282,28 @@
   <parameter name="baseAddress" value="0x00010000" />
   <parameter name="defaultConnection" value="false" />
  </connection>
+ <connection kind="avalon" version="18.1" start="clarvi_0.main" end="sdram.s1">
+  <parameter name="arbitrationPriority" value="1" />
+  <parameter name="baseAddress" value="0x01000000" />
+  <parameter name="defaultConnection" value="false" />
+ </connection>
  <connection kind="clock" version="18.1" start="clk_0.clk" end="uart_0.clk" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="pio_0.clk" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="ram.clk1" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="ram.clk2" />
  <connection kind="clock" version="18.1" start="clk_0.clk" end="clarvi_0.clock" />
+ <connection
+   kind="clock"
+   version="18.1"
+   start="clock_bridge_0.out_clk"
+   end="sdram.clk" />
+ <connection
+   kind="interrupt"
+   version="18.1"
+   start="clarvi_0.interrupt_receiver_0"
+   end="uart_0.irq">
+  <parameter name="irqNumber" value="0" />
+ </connection>
  <connection
    kind="reset"
    version="18.1"
@@ -225,6 +315,7 @@
    start="clk_0.clk_reset"
    end="uart_0.reset" />
  <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="pio_0.reset" />
+ <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="sdram.reset" />
  <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="ram.reset1" />
  <connection kind="reset" version="18.1" start="clk_0.clk_reset" end="ram.reset2" />
  <interconnectRequirement for="$system" name="qsys_mm.clockCrossingAdapter" value="HANDSHAKE" />

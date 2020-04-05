@@ -52,7 +52,6 @@ set_global_assignment -name FLOW_ENABLE_POWER_ANALYZER ON
 set_global_assignment -name POWER_DEFAULT_INPUT_IO_TOGGLE_RATE "12.5 %"
 set_global_assignment -name SYSTEMVERILOG_FILE clarvi_soc_top.sv
 set_global_assignment -name QSYS_FILE clarvi_soc.qsys
-set_global_assignment -name QIP_FILE pll.qip
 set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
 set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
@@ -82,6 +81,90 @@ set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to UART_TX
 set_location_assignment PIN_A4 -to UART_RX
 set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to UART_RX
 
+#============================================================
+# SDRAM
+#============================================================
+set_location_assignment PIN_D11 -to DRAM_DQ[0]
+set_location_assignment PIN_G10 -to DRAM_DQ[1]
+set_location_assignment PIN_F10 -to DRAM_DQ[2]
+set_location_assignment PIN_F9 -to DRAM_DQ[3]
+set_location_assignment PIN_E10 -to DRAM_DQ[4]
+set_location_assignment PIN_D9 -to DRAM_DQ[5]
+set_location_assignment PIN_G9 -to DRAM_DQ[6]
+set_location_assignment PIN_F8 -to DRAM_DQ[7]
+set_location_assignment PIN_F13 -to DRAM_DQ[8]
+set_location_assignment PIN_E12 -to DRAM_DQ[9]
+set_location_assignment PIN_E13 -to DRAM_DQ[10]
+set_location_assignment PIN_D12 -to DRAM_DQ[11]
+set_location_assignment PIN_C12 -to DRAM_DQ[12]
+set_location_assignment PIN_B12 -to DRAM_DQ[13]
+set_location_assignment PIN_B13 -to DRAM_DQ[14]
+set_location_assignment PIN_A12 -to DRAM_DQ[15]
+set_location_assignment PIN_E9 -to DRAM_LDQM
+set_location_assignment PIN_F12 -to DRAM_UDQM
+set_location_assignment PIN_K6 -to DRAM_ADDR[0]
+set_location_assignment PIN_M5 -to DRAM_ADDR[1]
+set_location_assignment PIN_N5 -to DRAM_ADDR[2]
+set_location_assignment PIN_J8 -to DRAM_ADDR[3]
+set_location_assignment PIN_N10 -to DRAM_ADDR[4]
+set_location_assignment PIN_M11 -to DRAM_ADDR[5]
+set_location_assignment PIN_N9 -to DRAM_ADDR[6]
+set_location_assignment PIN_L10 -to DRAM_ADDR[7]
+set_location_assignment PIN_M13 -to DRAM_ADDR[8]
+set_location_assignment PIN_N8 -to DRAM_ADDR[9]
+set_location_assignment PIN_N4 -to DRAM_ADDR[10]
+set_location_assignment PIN_M10 -to DRAM_ADDR[11]
+set_location_assignment PIN_L11 -to DRAM_ADDR[12]
+set_location_assignment PIN_M12 -to DRAM_ADDR[13]
+set_location_assignment PIN_N6 -to DRAM_BA[0]
+set_location_assignment PIN_K8 -to DRAM_BA[1]
+set_location_assignment PIN_M9 -to DRAM_CLK
+set_location_assignment PIN_M8 -to DRAM_CKE
+set_location_assignment PIN_M7 -to DRAM_RAS_N
+set_location_assignment PIN_K7 -to DRAM_WE_N
+set_location_assignment PIN_M4 -to DRAM_CS_N
+set_location_assignment PIN_N7 -to DRAM_CAS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[14]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_DQ[15]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_LDQM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_UDQM
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[2]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[3]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[4]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[5]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[6]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[7]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[8]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[9]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[10]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[11]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[12]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_ADDR[13]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_BA[0]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_BA[1]
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CLK
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CKE
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_RAS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_WE_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CS_N
+set_instance_assignment -name IO_STANDARD "3.3-V LVTTL" -to DRAM_CAS_N
+
 set_global_assignment -name ENABLE_OCT_DONE ON
 set_global_assignment -name EXTERNAL_FLASH_FALLBACK_ADDRESS 00000000
 set_global_assignment -name USE_CONFIGURATION_DEVICE OFF
@@ -91,4 +174,6 @@ set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_NEAR_END_VMEAS "HALF VCCIO" -fall
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -rise
 set_global_assignment -name OUTPUT_IO_TIMING_FAR_END_VMEAS "HALF SIGNAL SWING" -fall
+set_global_assignment -name QIP_FILE pll.qip
+
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
